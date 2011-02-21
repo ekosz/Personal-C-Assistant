@@ -46,8 +46,8 @@ follow a simple guide.
 
 1. Clone this repository to your local machine ##############
 2. install the heroku gem # `sudo gem install heroku`
-3. Create a new heroku project #############
-4. Add the redis-to-go plugin #############
+3. Create a new heroku project # `heroku create`
+4. Add the redis-to-go plugin # `heroku addons:add redistogo:nano`
 5. Push the code to heroku # `git push heroku master`
 6. Create a twilio account #############
 7. Point your new number to the newly created heroku project
