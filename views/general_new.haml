@@ -1,0 +1,16 @@
+%p
+  ="Create a new #{@class.to_s}"
+
+
+%form{:action=>'', :method=>'POST'}
+  - @class.accessors.each do |var|
+    %p
+      ="#{var[1..-1]}:"
+      %input{:type=>'text', :name=>var.to_s[1..-1]}
+  %input{:type=>'submit', :value=>'Submit!'}
+
+%a{:href=>"/#{@class.to_s.downcase}s"}
+  ="Go Back to #{@class.to_s}s"
+
+
+

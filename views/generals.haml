@@ -1,0 +1,16 @@
+- if !@gens.empty?
+  %div{:id=>@gens[0].class.to_s.capitalize+'List'}
+    - @gens.each do |gen|
+      %div{:class=>gen.class.to_s.downcase}
+        %a{:href=>"/#{gen.class.to_s.downcase}/#{gen.id}"}
+        - gen.instance_variables.each do |var|
+          %p
+            %b
+              = var.to_s[1..-1]+":" 
+            =gen.instance_variable_get(var)
+- else
+  %p
+    Nohing yet
+%p
+  %a{:href=>@new_path}
+    Create a new one

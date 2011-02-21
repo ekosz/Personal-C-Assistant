@@ -1,0 +1,85 @@
+@mixin clearfix
+  *display: inline-block
+  &:after
+    :content " "
+    :display block
+    :height 0
+    :clear both
+    :visibility hidden
+
+@mixin stripped_list
+  :margin 0
+  :padding 0
+  :list-style-type none
+
+@mixin inline_list
+  @include stripped_list
+  li
+    :display inline
+
+@mixin inline_block
+  :display inline-block
+  :zoom 1
+  :*display inline
+
+@mixin gradient($or: horizontal, $start_color: rgb(255,255,255), $end_color: rgb(200,200,200))
+  @if $or == vertical
+    :background -webkit-gradient(linear, 0% 0%, 0% 100%, from($start_color), to($end_color))
+    :background -moz-linear-gradient(0% 0% 270deg, $start_color, $end_color)
+    :-pie-background linear-gradient(0% 0% 270deg, $start_color, $end_color)
+  @else
+    :background -webkit-gradient(linear, 0% 0%, 100% 0%, from($start_color), to($end_color))
+    :background -moz-linear-gradient(0% 0% 0deg, $start_color, $end_color)
+    :-pie-background linear-gradient(0% 0% 0deg, $start_color, $end_color)
+  :behavior url(/stylesheets/PIE.htc)
+  :position relative
+
+@mixin gradient_with_image($or: horizontal, $img: '/images/background.png', $repeat: repeat, $x: left, $y: top, $start_color: rgb(255,255,255), $end_color: rgb(200,200,200))
+  @if $or == vertical
+    :background-image url($img), -webkit-gradient(linear, 0% 0%, 100% 0%, from($start_color), to($end_color))
+    :background-image url($img), -moz-linear-gradient(0% 0% 0deg, $start_color, $end_color)
+    :-pie-background url($img) $repeat $x $y, linear-gradient(0% 0% 0deg, $start_color, $end_color)
+    :background-repeat $repeat
+    :background-position $x $y
+  @else
+    :background-image url($img), -webkit-gradient(linear, 0% 0%, 0% 100%, from($start_color), to($end_color))
+    :background-image url($img), -moz-linear-gradient(0% 0% 270deg, $start_color, $end_color)
+    :-pie-background url($img) $repeat $x $y, linear-gradient(0% 0% 270deg, $start_color, $end_color)
+    :background-repeat $repeat
+    :background-position $x $y
+  :behavior url(/stylesheets/PIE.htc)
+  :position relative
+
+@mixin border_radius($radius: 0)
+  :border-radius $radius
+  :-moz-border-radius $radius
+  :behavior url(/stylesheets/PIE.htc)
+  :position relative
+
+@mixin box_shadow($x: 3px 3px 3px rgb(150,150,150))
+  :box-shadow $x
+  :-webkit-box-shadow $x
+  :-moz-box-shadow $x
+  :behavior url(/stylesheets/PIE.htc)
+  :position relative
+
+@mixin button($radius: 10px)
+  :background hsl(0,0,75%)
+  :border 1px solid hsl(0,0,60%)
+  @include border_radius(10px)
+  :color hsl(0,0,15%)
+  :font-size 12px
+  @include gradient(vertical,hsl(0,0,80%),hsl(0,0,55%))
+  @include inline_block
+  :line-height 20px
+  :margin 0
+  :padding 0 8px 0 5px
+  :text-decoration none
+
+  &:hover
+    @include gradient(vertical,hsl(0,0,55%),hsl(0,0,80%))
+
+  img
+    :border none
+    :margin -3px 0 0 0
+    :vertical-align middle

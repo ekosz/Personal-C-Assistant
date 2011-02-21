@@ -1,0 +1,12 @@
+%a{:href=>"/#{@gen.class.to_s.downcase}/#{@gen.id}/edit"}
+  ="Edit this #{@gen.class}"
+
+- @gen.instance_variables.each do |var|
+  %p
+    %b
+      = var.to_s[1..-1]+":" 
+    =@gen.instance_variable_get(var)
+
+%a{:href=>"/"+@gen.class.to_s.downcase+'s'}
+  ="View all #{@gen.class}s"
+

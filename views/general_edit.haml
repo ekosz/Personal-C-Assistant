@@ -1,0 +1,17 @@
+%p
+  ="Edit this #{@gen.class.to_s}"
+
+%form{:action=>'', :method=>'POST'}
+  %input{:type=>'hidden', :name=>'_method', :value=>'put'}
+  - @gen.instance_variables.each do |var|
+    %p
+      %b
+        =var.to_s[1..-1]+':'
+      %br
+      %input{:type=>'text', :name=>var.to_s[1..-1], :value=>@gen.instance_variable_get(var)}
+  %input{:type=>'submit', :value=>'Submit!'}
+    
+    %a{:href=>"/#{@gen.class.to_s}/#{@gen.id}"}
+  ="Return to #{@gen.class.to_s}"
+
+
