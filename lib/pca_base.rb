@@ -53,7 +53,6 @@ class PCABase
   private
 
   def create_from_hash(arg)
-    puts "I am assigning by a hash: "+arg.inspect
     arg.each_pair {|key, val| self.instance_variable_set('@'+key,val)}
     if @id.nil?
       @id = generate_id
@@ -62,7 +61,6 @@ class PCABase
 
   def lookup_from_id(id)
     id = self.class.to_s.downcase+':'+id
-    puts "I am looking up an ID: "+id
     data = Main::REDIS.get id
     if data.nil?
       raise IdNotFound, id

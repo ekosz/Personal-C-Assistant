@@ -15,12 +15,12 @@ class User < PCABase
     end
   end
 
-  def avalible?
+  def available?
     if @gcal_url
       now = Time.now.utc.xmlschema
-      url = @gcal+"/free-busy?alt=json&start-min=#{now}&start-max=#{now}"
+      url = @gcal_url+"/free-busy?alt=json&start-min=#{now}&start-max=#{now}"
       res = JSON.parse(Net::HTTP.get URI.parse url)['feed']['entry']
-      return true if res.empty? || res[0]['title']['$t'] != "busy"
+      return true if res.nil? || res[0]['title']['$t'] != "busy"
       #TODO: Set @custom_message if there is one
       false
     else

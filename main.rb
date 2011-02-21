@@ -87,6 +87,7 @@ class Main < Sinatra::Base
   ##########
 
   post '/twilio' do
+    puts request.POST
     builder do |xml|
       xml.instruct!
       xml.Responce do
@@ -98,15 +99,19 @@ class Main < Sinatra::Base
           end
           xml.Say "Sorry no input"
         else
-          xml.Redirect(:user_id => User.all[0].id)
+          xml.Redirect('/twilio/check_avalible') 
         end
       end
     end
   end
 
   post '/twilio/check_avalible' do
-    @user = User.new(params[:user_id] || params[:Digits])
-    if @user.availble?
+    if params[:Digits]
+      @user = User.new(params[:Digits])
+    else
+      @user = User.all[0]
+    end
+    if @user.available?
       builder do |xml|
         xml.instruct!
         xml.Responce do
@@ -119,7 +124,8 @@ class Main < Sinatra::Base
         xml.instruct!
         xml.Responce do
           xml.Gather(:action=>'/twilio/call/'+@user.number,:numDigits=>"1") do
-            xml.Say "Sorry #{@user.name} is #{@user.message || 'not avalible'}.
+            # TODO: Use @user.message when it is implemented
+            xml.Say "Sorry #{@user.name} is #{'not avalible'}.
                      If this is an emergancy, press any key to connect"
           end
         end
