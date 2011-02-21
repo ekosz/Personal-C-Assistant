@@ -90,7 +90,7 @@ class Main < Sinatra::Base
     puts request.POST
     builder do |xml|
       xml.instruct!
-      xml.Responce do
+      xml.Response do
         if ENV['multi_user'] == true
           to_say = "Hello #{get_name(params[:From][2..-1]) || ''}, 
                     please enter the 3 diget extention now."
@@ -99,7 +99,7 @@ class Main < Sinatra::Base
           end
           xml.Say "Sorry no input"
         else
-          xml.Redirect('/twilio/check_avalible') 
+          xml.Redirect('twilio/check_avalible') 
         end
       end
     end
@@ -114,7 +114,7 @@ class Main < Sinatra::Base
     if @user.available?
       builder do |xml|
         xml.instruct!
-        xml.Responce do
+        xml.Response do
           xml.Say "Connecting"
           xml.Dial @user.number
         end
@@ -122,7 +122,7 @@ class Main < Sinatra::Base
     else
       builder do |xml|
         xml.instruct!
-        xml.Responce do
+        xml.Response do
           xml.Gather(:action=>'/twilio/call/'+@user.number,:numDigits=>"1") do
             # TODO: Use @user.message when it is implemented
             xml.Say "Sorry #{@user.name} is #{'not avalible'}.
@@ -136,7 +136,7 @@ class Main < Sinatra::Base
   post '/twilio/call/:number' do
     builder do |xml|
       xml.instruct!
-      xml.Responce do
+      xml.Response do
         xml.Say "Connecting"
         xml.Dial params[:number].to_i
       end
