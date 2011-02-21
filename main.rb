@@ -91,14 +91,15 @@ class Main < Sinatra::Base
     builder do |xml|
       xml.instruct!
       xml.Response do
+        to_say = "Hello #{get_name(params[:From][2..-1]) || ''}."
         if ENV['multi_user'] == true
-          to_say = "Hello #{get_name(params[:From][2..-1]) || ''}, 
-                    please enter the 3 diget extention now."
+          to_say += "Please enter the 3 diget extention now."
           xml.Gather(:numDigits=>"3",:action=>"/twilio/check_avalible") do
             xml.Say to_say
           end
           xml.Say "Sorry no input"
         else
+          xml.Say to_say
           xml.Redirect('twilio/check_avalible') 
         end
       end
