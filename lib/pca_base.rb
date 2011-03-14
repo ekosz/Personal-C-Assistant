@@ -35,7 +35,7 @@ class PCABase
   end
 
   def save
-    if @id.id?
+    if @id.nil?
       Main::REDIS.set self.class.to_s.downcase+':'+@id, self.to_json
     else
       raise InvalidObjectError, "ID can't be nil"
