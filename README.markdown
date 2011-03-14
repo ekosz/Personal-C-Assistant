@@ -44,12 +44,12 @@ Step-by-step Easy Installation Using Heroku
 This is for those that don't want to think about the installation, and can
 follow a simple guide.
 
-1. Clone this repository to your local machine ##############
+1. Clone this repository to your local machine # `git clone git://github.com/ekosz/Personal-C-Assistant.git`
 2. install the heroku gem # `sudo gem install heroku`
 3. Create a new heroku project # `heroku create`
 4. Add the redis-to-go plugin # `heroku addons:add redistogo:nano`
 5. Push the code to heroku # `git push heroku master`
-6. Create a twilio account #############
+6. Create a twilio account # [Sign-Up](https://www.twilio.com/try-twilio)
 7. Point your new number to the newly created heroku project
 8. Goto your heroku app, add yourself as a user, and add any numbers
 9. Tell everyone to start calling your new PCE number
