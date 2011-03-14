@@ -1,8 +1,29 @@
+# Third-Party
+require 'rubygems'
+require 'bundler'
+Bundler.setup
+
+# This actually requires the bundled gems
+Bundler.require
+
+# Helpers
+require 'partials'
+require 'redirect_with_objects'
+require 'twilio_helpers'
+
+# Object Classes
+require 'pca_base'
+require 'number'
+require 'group'
+require 'user'
+
+# Sinatra
+require 'sinatra'
 class Main < Sinatra::Base
 
   helpers Sinatra::Partials, Sinatra::RedirectWithObjects, Sinatra::TwilioHelpers
 
-  configure :development do
+  configure :development, :test do
     REDIS = Redis.new
   end
 
@@ -53,7 +74,7 @@ class Main < Sinatra::Base
   # i.e. /number/5, /user/ekosz, /group/CSH
   get %r{^\/([^\/]+[^s])\/([^\/.]+)$} do |obj, id|
     self.instance_variable_set('@gen', 
-                               Kernel.const_get(obj.capitalize).new(id))
+                               Kernel.const_get(obj.capitalize).lookup_from_id(id))
 
     haml :general
   end
@@ -62,7 +83,7 @@ class Main < Sinatra::Base
   # i.e. /number/5/edit, /user/ekosz/edit, /group/CSH/edit
   get %r{^\/([^\/]+[^s])\/([^\/]+)\/edit$} do |obj, id|
     self.instance_variable_set('@gen', 
-                               Kernel.const_get(obj.capitalize).new(id))
+                               Kernel.const_get(obj.capitalize).lookup_from_id(id))
     haml :general_edit
   end
 

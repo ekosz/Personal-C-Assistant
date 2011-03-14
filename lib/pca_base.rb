@@ -1,15 +1,12 @@
 #pca_base.rb
 #Author: Eric Koslow
-
 class PCABase
 
   attr_accessor :id
 
-  def initialize(arg)
+  def initialize(arg = {})
     if arg.is_a? Hash
       create_from_hash(arg)
-    elsif arg.is_a? String
-      lookup_from_id(arg)
     else
       raise InvalidArgument, arg
     end
@@ -27,8 +24,22 @@ class PCABase
     instance_methods(false).keep_if {|v| v=~/\w+=/}.map {|m| '@'+m.to_s[0..-2]}
   end
 
+  def self.lookup_from_id(id)
+    id = self.class.to_s.downcase+':'+id
+    data = Main::REDIS.get id
+    if data.nil?
+      raise IdNotFound, id
+    end
+    data = JSON.parse data
+    self.new(data)
+  end
+
   def save
-    Main::REDIS.set self.class.to_s.downcase+':'+@id, self.to_json
+    if @id.id?
+      Main::REDIS.set self.class.to_s.downcase+':'+@id, self.to_json
+    else
+      raise InvalidObjectError, "ID can't be nil"
+    end
   end
 
   def delete
@@ -59,15 +70,6 @@ class PCABase
     end
   end
 
-  def lookup_from_id(id)
-    id = self.class.to_s.downcase+':'+id
-    data = Main::REDIS.get id
-    if data.nil?
-      raise IdNotFound, id
-    end
-    data = JSON.parse data
-    create_from_hash(data)
-  end
 
   def generate_id
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a

@@ -1,13 +1,13 @@
 # user.rb
 # Author: Eric Koslow
+require 'net/http'
+require 'time'
 
 class User < PCABase
   attr_accessor :name, :number, :extention, :gcal_url
 
-  def inilize(arg) 
-    if arg.is_a? Fixnum
-      lookup_from_extention(arg)
-    elsif arg.is_a? Hash
+  def inilize(arg={}) 
+    if arg.is_a? Hash
       arg['extention'] ||= generate_extention
       super(arg)
     else
@@ -15,6 +15,10 @@ class User < PCABase
     end
   end
 
+  def self.lookup_from_extention(ex)
+    data = Main::REDIS.get(Main::REDIS.get('extention:'+ex.to_s))
+    create_from_hash JSON.parse(data)
+  end
   def available?
     if @gcal_url
       now = Time.now.utc.xmlschema
@@ -34,9 +38,5 @@ class User < PCABase
     Main::REDIS.incr "extention:key"
   end
 
-  def lookup_from_extention(ex)
-    data = Main::REDIS.get(Main::REDIS.get('extention:'+ex.to_s))
-    create_from_hash JSON.parse(data)
-  end
 
 end
