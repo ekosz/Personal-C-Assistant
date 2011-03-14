@@ -15,7 +15,7 @@ class PCABase
   def self.all
     array = Array.new
     Main::REDIS.keys(self.to_s.downcase+':*').each do |key| 
-      array << self.new(key.split(':')[1])
+      array << self.lookup_from_id(key.split(':')[1])
     end
     return array
   end
@@ -25,7 +25,7 @@ class PCABase
   end
 
   def self.lookup_from_id(id)
-    id = self.class.to_s.downcase+':'+id
+    id = self.to_s.downcase+':'+id
     data = Main::REDIS.get id
     if data.nil?
       raise IdNotFound, id
