@@ -3,10 +3,10 @@
 
 class Number < PCABase
   
-  attr_accessor :name, :number, :permission
+  attribute :name
+  attribute :number
+  attribute :permission
 
-  def initialize(arg)
-    super(arg)
-  end
+  set :groups, Group
 
 end

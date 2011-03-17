@@ -3,6 +3,8 @@
 
 class Group < PCABase
   
-  attr_accessor :name, :permission, :members
+  attribute :name
+  attribute :permission
+  set :members, Number
 
 end

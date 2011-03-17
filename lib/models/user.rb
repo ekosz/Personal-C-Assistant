@@ -4,7 +4,15 @@ require 'net/http'
 require 'time'
 
 class User < PCABase
-  attr_accessor :name, :number, :extention, :gcal_url
+  extend Shield::Model
+
+  attribute :name
+  attribute :username
+  index :username
+  attribute :crypted_password
+  attribute :number
+  attribute :extention
+  attribute :gcal_url
 
   def inilize(arg={}) 
     if arg.is_a? Hash
@@ -16,9 +24,13 @@ class User < PCABase
   end
 
   def self.lookup_from_extention(ex)
-    data = Main::REDIS.get(Main::REDIS.get('extention:'+ex.to_s))
-    create_from_hash JSON.parse(data)
+    User.find(:extention=>ex).first
   end
+
+  def self.fetch(username)
+    find(:username=>username).first
+  end
+
   def available?
     if @gcal_url
       now = Time.now.utc.xmlschema
@@ -30,6 +42,11 @@ class User < PCABase
     else
       return true
     end
+  end
+
+  def password=(password)
+    write_local(:crypted_password, Shield::Password.encrypt(password))
+    @password = password
   end
   
   private

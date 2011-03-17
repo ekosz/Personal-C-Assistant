@@ -1,0 +1,12 @@
+%h2 Log In!
+
+%span{:style=>"color:red; text-size:120%"}=@errors if @errors
+%form{:action=>'', :method=>'POST'}
+  %p
+    %label{:name=>'username'} Username: 
+    %input{:type=>'text', :name=>'username'}
+  %p
+    %label{:name=>'password'} Password: 
+    %input{:type=>'password', :name=>'password'}
+  %p
+    %input{:type=>'submit'}

@@ -33,6 +33,15 @@
 
   %body
 
+    %header
+      - if !! authenticated(User)
+        = authenticated(User).name
+      - else
+        %a{:herf=>'/login'}
+          Log In!
+      | 
+      %a{:href=>'/logout'}
+        Log out :(
     = yield
     %footer
       %a{:href=>'/'}
