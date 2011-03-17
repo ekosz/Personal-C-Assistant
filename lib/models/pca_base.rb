@@ -1,5 +1,8 @@
 #pca_base.rb
 #Author: Eric Koslow
+
+require 'json'
+
 class PCABase
 
   attr_accessor :id
