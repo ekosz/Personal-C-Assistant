@@ -11,7 +11,7 @@ require 'ohm'
 require 'shield'
 
 # Helpers
-require_relative 'lib/helpers/init'
+require_relative 'app/helpers/init'
 
 class Main < Sinatra::Base
 
@@ -33,7 +33,7 @@ class Main < Sinatra::Base
     # Configure public directory
     set :public, File.join(File.dirname(__FILE__), 'public')
 
-    set :views, File.dirname(__FILE__)+'/lib/views'
+    set :views, File.dirname(__FILE__)+'/app/views'
 
     # Configure HAML and SASS
     set :haml, { :format => :html5 }
@@ -46,9 +46,9 @@ class Main < Sinatra::Base
 end
 
 # Models
-require_relative 'lib/models/init'
+require_relative 'app/models/init'
 # Routes
-require_relative 'lib/routes/init'
+require_relative 'app/routes/init'
 
 if User.find(:username=>'admin').size == 0
   User.create(:username=>'admin', :password=>'admin')
