@@ -26,7 +26,7 @@ class Main < Sinatra::Base
     # This needs to be changed if not using heroku
     uri = URI.parse(ENV["REDISTOGO_URL"])
     REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-    set :sass, { :style => :compressed } 
+    set :sass, { :style => :compressed }
   end
 
   configure do
@@ -41,6 +41,7 @@ class Main < Sinatra::Base
     enable :sessions
 
     REDIS.set("extention:key", 100) if REDIS.get("extention:key").nil?
+    Ohm.redis = Main::REDIS
   end
 end
 
