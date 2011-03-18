@@ -9,15 +9,22 @@
     font-size: 300%
 .number
   width: 160px
+  font-size: 120%
   background-color: red
   margin-bottom: 10px
   -moz-border-radius: 30px
   border-radius: 10px
   padding: 5px
+  -webkit-transition: background 250ms ease-in-out
+  -moz-transition: background 250ms ease-in-out
+  -o-transition: background 250ms ease-in-out
+  transition: background 250ms ease-in-out
   a
     display: block
     text-decoration: none
     color: black
+.number:hover
+  background-color: orange
 #number 
   width: 1200px
   .number
