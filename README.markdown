@@ -20,7 +20,7 @@ before being redirected.
 Implemented Features
 --------------------
 
-* Each user is associated with a Google Calender magic cookie url.  When a call
+* Each user is associated with a Google Calendar magic cookie url.  When a call
   comes in for that user, PCE will poll that url and find out if the user is
   busy with an event.  If so, the call will end, unless the caller insists
   that the call is important.  This can be used to stop annoying call during
